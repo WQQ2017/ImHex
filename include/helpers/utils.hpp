@@ -70,22 +70,6 @@ namespace hex {
         return (((value ^ mask) - mask) << (64 - targetWidth)) >> (64 - targetWidth);
     }
 
-    [[nodiscard]] constexpr inline bool isUnsigned(const lang::Token::ValueType type) {
-        return (static_cast<u32>(type) & 0x0F) == 0x00;
-    }
-
-    [[nodiscard]] constexpr inline bool isSigned(const lang::Token::ValueType type) {
-        return (static_cast<u32>(type) & 0x0F) == 0x01;
-    }
-
-    [[nodiscard]] constexpr inline bool isFloatingPoint(const lang::Token::ValueType type) {
-        return (static_cast<u32>(type) & 0x0F) == 0x02;
-    }
-
-    [[nodiscard]] constexpr inline u32 getTypeSize(const lang::Token::ValueType type) {
-        return static_cast<u32>(type) >> 4;
-    }
-
     std::string toByteString(u64 bytes);
     std::string makePrintable(char c);
 
