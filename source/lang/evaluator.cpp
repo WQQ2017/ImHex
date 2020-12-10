@@ -9,7 +9,7 @@ namespace hex::lang {
 
     }
 
-    std::pair<PatternData*, size_t> Evaluator::createStructPattern(ASTNodeVariableDecl *varDeclNode, u64 offset) {
+    /*std::pair<PatternData*, size_t> Evaluator::createStructPattern(ASTNodeVariableDecl *varDeclNode, u64 offset) {
         std::vector<PatternData*> members;
 
         auto structNode = static_cast<ASTNodeStruct*>(this->m_types[varDeclNode->getCustomVariableTypeName()]);
@@ -345,10 +345,10 @@ namespace hex::lang {
         }
 
         return { nullptr, 0 };
-    }
+    }*/
 
-    std::optional<std::vector<PatternData*>> Evaluator::evaluate(const std::vector<ASTNode *> &ast) {
-
+    std::pair<Result, std::vector<PatternData*>> Evaluator::evaluate(const std::vector<ASTNode *> &ast) {
+/*
         // Evaluate types
         for (const auto &node : ast) {
 
@@ -420,9 +420,9 @@ namespace hex::lang {
 
         for (const auto &var : variables)
             if (var == nullptr)
-                return { };
-
-        return variables;
+                return { ResultEvaluatorError, { } };
+*/
+        return { ResultSuccess, {} };
     }
 
 }
