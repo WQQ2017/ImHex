@@ -2,21 +2,6 @@
 
 #include <hex.hpp>
 
-#include <array>
-#include <functional>
-#include <memory>
-#include <optional>
-#include <string>
-#include <utility>
-#include <vector>
-
-#ifdef __MINGW32__
-#include <winsock.h>
-
-#else
-#include <arpa/inet.h>
-#endif
-
 #define TOKEN_CONCAT_IMPL(x, y) x ## y
 #define TOKEN_CONCAT(x, y) TOKEN_CONCAT_IMPL(x, y)
 
@@ -29,44 +14,20 @@
     #define ftello64 ftell
 #endif
 
-#if defined(_LIBCPP_VERSION) && _LIBCPP_VERSION <= 12000
-#if __has_include(<concepts>)
-// Make sure we break when derived_from is implemented in libc++. Then we can fix a compatibility version above
-#include <concepts>
-#endif
-// libcxx 12 still doesn't have many default concepts implemented, as a result we need to define it ourself using clang built-ins.
-// [concept.derived] (patch from https://reviews.llvm.org/D74292)
-namespace hex {
-template<class _Dp, class _Bp>
-concept derived_from =
-  __is_base_of(_Bp, _Dp) && __is_convertible_to(const volatile _Dp*, const volatile _Bp*);
-}
+#include <array>
+#include <functional>
+#include <memory>
+#include <optional>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
-// [concepts.arithmetic]
-namespace hex {
-template<class _Tp>
-concept integral = __is_integral(_Tp);
+#ifdef __MINGW32__
+#include <winsock.h>
 
-template<class _Tp>
-concept signed_integral = integral<_Tp> && __is_signed(_Tp);
-
-template<class _Tp>
-concept unsigned_integral = integral<_Tp> && !signed_integral<_Tp>;
-
-template<class _Tp>
-concept floating_point = __is_floating_point(_Tp);
-}
 #else
-// Assume supported
-#include <concepts>
-namespace hex {
-    using std::derived_from;
-
-    using std::integral;
-    using std::signed_integral;
-    using std::unsigned_integral;
-    using std::floating_point;
-}
+#include <arpa/inet.h>
 #endif
 
 namespace hex {
